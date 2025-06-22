@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :promotions
+  resources :order_items
+  resources :orders
   resources :products
   # get "homepage/index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -12,5 +15,6 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
+  post '/api_orders' => 'orders#api_create_order'
   root "homepage#index"
 end
