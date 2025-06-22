@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_21_163740) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_22_164206) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -37,19 +37,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_21_163740) do
     t.decimal "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "promotion_id"
+    t.index ["promotion_id"], name: "index_products_on_promotion_id"
   end
 
   create_table "promotions", force: :cascade do |t|
-    t.bigint "product_id", null: false
     t.string "code"
     t.string "name"
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["product_id"], name: "index_promotions_on_product_id"
+    t.string "promotion_type"
+    t.decimal "discounted_price", precision: 20, scale: 10
+    t.integer "quantity"
   end
 
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "products"
-  add_foreign_key "promotions", "products"
+  add_foreign_key "products", "promotions"
 end
