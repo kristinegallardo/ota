@@ -1,0 +1,37 @@
+<%= form_with model: @order, data: { controller: "order-items" }, local: true do |f| %>
+
+  <div class="flex justify-between items-center">
+    <h1 class="font-bold text-4xl"><%= link_to "Create Order", root_path %></h1>
+    <%= link_to "Back to Home Page", root_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
+  </div>
+
+  <div class="mb-6">
+    <%= f.label :customer_name, class: "block font-medium text-gray-700" %>
+    <%= f.text_field :customer_name, class: "mt-1 block w-full rounded border border-gray-300 p-2" %>
+  </div>
+
+  <table class="min-w-full table-auto border border-gray-300">
+    <thead class="bg-gray-100">
+      <tr>
+        <th class="border px-4 py-2 text-left">Product</th>
+        <th class="border px-4 py-2 text-left">Quantity</th>
+        <th class="border px-4 py-2">Actions</th>
+      </tr>
+    </thead>
+    <tbody data-order-items-target="container">
+      <%= f.fields_for :order_items do |item_form| %>
+        <%= render "order_item_fields", f: item_form, products: @products %>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div class="mt-4">
+    <button type="button" data-action="order-items#add" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">
+      + Add Order Item
+    </button>
+  </div>
+
+  <div class="mt-6">
+    <%= f.submit "Create Order", class: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded" %>
+  </div>
+<% end %>

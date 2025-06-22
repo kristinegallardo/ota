@@ -1,0 +1,31 @@
+<%= form_with model: @order, data: { controller: "order-items" }, local: true do |f| %>
+  <div class="mb-4">
+    <%= f.label :customer_name, class: "block text-sm font-semibold text-gray-700" %>
+    <%= f.text_field :customer_name, class: "w-full border rounded p-2" %>
+  </div>
+
+  <table class="min-w-full table-auto border border-gray-300">
+    <thead class="bg-gray-100">
+      <tr>
+        <th class="border px-4 py-2 text-left">Product</th>
+        <th class="border px-4 py-2 text-left">Quantity</th>
+        <th class="border px-4 py-2">Actions</th>
+      </tr>
+    </thead>
+    <tbody data-order-items-target="container">
+      <%= f.fields_for :order_items do |item_form| %>
+        <%= render 'order_item_fields', f: item_form, products: @products %>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div class="mt-4">
+    <button type="button" data-action="order-items#add" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">
+      + Add Order Item
+    </button>
+  </div>
+
+  <div class="flex space-x-4">
+    <%= f.submit "Update Order", class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+  </div>
+<% end %>

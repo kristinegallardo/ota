@@ -1,0 +1,40 @@
+<%= form_with model: order, local: true do |f| %>
+  <div class="mb-4">
+    <%= f.label :customer_name, class: "block font-medium text-gray-700" %>
+    <%= f.text_field :customer_name, class: "border rounded w-full p-2" %>
+  </div>
+
+  <table class="w-full border border-gray-300 mb-4">
+    <thead class="bg-gray-100">
+      <tr>
+        <th class="border px-4 py-2">Product</th>
+        <th class="border px-4 py-2">Quantity</th>
+        <th class="border px-4 py-2 text-center">Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= f.fields_for :order_items do |item_form| %>
+        <tr>
+          <td class="border px-4 py-2">
+            <%= item_form.select :product_id,
+              options_from_collection_for_select(products, :id, :name, item_form.object.product_id),
+              { include_blank: "Select product" },
+              class: "w-full border rounded" %>
+          </td>
+          <td class="border px-4 py-2">
+            <%= item_form.number_field :quantity, class: "w-full border rounded" %>
+          </td>
+          <td class="border px-4 py-2 text-center">
+            <%= item_form.check_box :_destroy %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div class="flex space-x-4 mt-4">
+    <%= f.submit "Save Order", class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+    <%= button_tag "Add Item", name: "add_item", value: true,
+        class: "bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" %>
+  </div>
+<% end %>
