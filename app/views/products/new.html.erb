@@ -15,10 +15,9 @@
   </div>
 
   <div class="mb-4">
-    <%= form.label :promotion_id, "Select Promotion Type", class: "block text-gray-700 font-bold mb-2" %>
-    <%= form.select :promotion_id, options_for_select(@promotions.pluck(:name), @product.promotion_id),
-      {}, # HTML options for select
-      class: "block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" %>
+    <%= form.label :promotion_id, "Promotion Type", class: "block font-medium text-gray-700" %>
+    <%= form.collection_select :promotion_id, @promotions, :id, :name, { include_blank: "Select Promotion" },
+    class: "mt-1 block w-full rounded border border-gray-300 p-2" %>
   </div>
 
   <div class="mb-6">
