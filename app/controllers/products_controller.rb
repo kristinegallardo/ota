@@ -13,10 +13,13 @@ class ProductsController < ApplicationController
   # GET /products/new
   def new
     @product = Product.new
+    @promotions = Promotion.all
   end
 
   # GET /products/1/edit
   def edit
+    @product = Product.find(params[:id])
+    @promotions = Promotion.all
   end
 
   # POST /products or /products.json
@@ -65,6 +68,6 @@ class ProductsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def product_params
-      params.expect(product: [ :name, :code, :price ])
+      params.require(:product).permit(:name, :code, :price, :price, :promotion_id)
     end
 end

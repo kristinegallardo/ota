@@ -1,6 +1,8 @@
 class PromotionsController < ApplicationController
   before_action :set_promotion, only: %i[ show edit update destroy ]
 
+  # @promotion_types = %w[fixed bundle bulk percentage].freeze
+
   # GET /promotions or /promotions.json
   def index
     @promotions = Promotion.all
@@ -12,7 +14,10 @@ class PromotionsController < ApplicationController
 
   # GET /promotions/new
   def new
+    @promotion_types = Promotion::PROMOTION_TYPES
     @promotion = Promotion.new
+    @promotion.products.build
+    @products = Product.all
   end
 
   # GET /promotions/1/edit
@@ -36,14 +41,27 @@ class PromotionsController < ApplicationController
 
   # PATCH/PUT /promotions/1 or /promotions/1.json
   def update
-    respond_to do |format|
-      if @promotion.update(promotion_params)
-        format.html { redirect_to @promotion, notice: "Promotion was successfully updated." }
-        format.json { render :show, status: :ok, location: @promotion }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @promotion.errors, status: :unprocessable_entity }
-      end
+    # respond_to do |format|
+    #   if @promotion.update(promotion_params)
+    #     format.html { redirect_to @promotion, notice: "Promotion was successfully updated." }
+    #     format.json { render :show, status: :ok, location: @promotion }
+    #   else
+    #     format.html { render :edit, status: :unprocessable_entity }
+    #     format.json { render json: @promotion.errors, status: :unprocessable_entity }
+    #   end
+    # end
+
+    @promotion = Promotion.find(params[:id])
+    @products = Product.all
+  
+    if params[:add_item]
+      # @order.assign_attributes(order_params)
+      # @order.order_items.build  # add a new blank item
+      render :edit
+    elsif @promotion.update(promotion_params)
+      redirect_to @promotion, notice: "Promotion updated successfully."
+    else
+      render :edit
     end
   end
 
@@ -65,6 +83,9 @@ class PromotionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def promotion_params
-      params.expect(promotion: [ :product_id, :code, :name, :description ])
+      params.require(:promotion)
+            .permit(:name, :code, :description, 
+                    :promotion_type, :discounted_price, :quantity,
+                    products_attributes: [:id, :name, :_destroy])
     end
 end

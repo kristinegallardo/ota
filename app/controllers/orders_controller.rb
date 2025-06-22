@@ -31,6 +31,7 @@ class OrdersController < ApplicationController
 
     respond_to do |format|
       if @order.save
+        @order.update(reference_number: "OTA-#{SecureRandom.hex(10)}")
         format.html { redirect_to @order, notice: "Order was successfully created." }
         format.json { render  p:show, status: :created, location: @order }
       else
@@ -46,6 +47,16 @@ class OrdersController < ApplicationController
   
     if outcome.valid?
       render json: { message: 'Successfully created', data: outcome.result[:data] }, status: :created
+    else
+      render json: { error_message: outcome.errors }, status: :unprocessable_entity
+    end
+  end
+
+  def calculate_order
+    outcome = CalculateOrderItems.run(params)
+  
+    if outcome.valid?
+      render json: { message: 'Successfully created', data: outcome.result }, status: :created
     else
       render json: { error_message: outcome.errors }, status: :unprocessable_entity
     end
