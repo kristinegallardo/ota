@@ -19,8 +19,10 @@ class CalculateOrderItems < ActiveInteraction::Base
       summary_details << summary
     end
 
-    total_amount = { total_amount: summary_details.sum { |item| item[:computed_price].to_f }.round(2) }
-    summary_details << total_amount
+    {
+      total_amount: summary_details.sum { |item| item[:computed_price].to_f }.round(2),
+      summary_details: summary_details
+    }
   end
 
   private
