@@ -31,7 +31,7 @@ class OrdersController < ApplicationController
 
     respond_to do |format|
       if @order.save
-        @order.update(reference_number: "OTA-#{SecureRandom.hex(10)}")
+        @order.update(reference_number: "OTA-#{SecureRandom.hex(10)}", total_amount_due: calculated_amount)
         format.html { redirect_to @order, notice: "Order was successfully created." }
         format.json { render  p:show, status: :created, location: @order }
       else
@@ -82,6 +82,7 @@ class OrdersController < ApplicationController
       # @order.order_items.build  # add a new blank item
       render :edit
     elsif @order.update(order_params)
+      @order.update(total_amount_due: calculated_amount)
       redirect_to @order, notice: "Order updated successfully."
     else
       render :edit
@@ -99,6 +100,9 @@ class OrdersController < ApplicationController
   end
 
   private
+    def calculated_amount
+      CalculateOrderItems.run(order_item_ids: @order.order_items.ids).result[:total_amount]
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_order
       @order = Order.find(params.expect(:id))
