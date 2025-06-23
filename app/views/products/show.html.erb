@@ -1,23 +1,56 @@
 <% content_for :title, "Showing product" %>
 
-<div class="md:w-2/3 w-full">
+<div class="w-full p-4">
   <% if notice.present? %>
     <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
   <% end %>
 
-  <h1 class="font-bold text-4xl">Showing product</h1>
+  <div class="flex justify-between items-center px-4 mb-12">
+    <h1 class="font-bold text-4xl">Showing Product</h1>
+    <%= link_to "Back to Home Page", root_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
+    <%= link_to "Product List", products_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
+  </div>
 
-  <%= render @product %>
+  <div class="flex justify-between items-center px-4 mb-12">
+    <% if @product.promotion.present? %>
+      <div class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">
+        <%= link_to "Promotion: #{@product.promotion.name}", @product.promotion, class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 inline-block font-medium" %>
+      </div>
+    <% else %>
+      <div class="bg-gray-100 text-gray-500 px-3 py-1 rounded-full text-sm">
+        No promotion
+      </div>
+    <% end %>
+  </div>
 
-  <% if @product.promotion.present? %>
-        <div class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">
-          Promotion: <%= @product.promotion.name %>
+  <table class="min-w-full table-auto mb-12">
+    <thead class="bg-gray-100">
+      <tr>
+        <th class="border px-4 py-2 text-left">Product Name</th>
+        <th class="border px-4 py-2 text-left">Product Code Number:</th>
+        <th class="border px-4 py-2">Product Price</th>
+      </tr>
+    </thead>
+    <div class="flex flex-col sm:flex-row justify-between items-center pb-5 sm:pb-0">
+      <tbody data-products-target="container">
+        <div class="flex flex-col sm:flex-row justify-between items-center pb-5 sm:pb-0">
+            <tr data-products-target="row">
+              <div id="<%= dom_id @product %>" class="w-full sm:w-auto my-5 space-y-5">
+                <td class="border px-4 py-2">
+                  <%= @product.name %>
+                </td>
+                <td class="border px-4 py-2">
+                  <%= @product.code %>
+                </td>
+                <td class="border px-4 py-2 text-center">
+                  <%= @product.price %>
+                </td>
+              </div>
+            </tr>
         </div>
-  <% else %>
-    <div class="bg-gray-100 text-gray-500 px-3 py-1 rounded-full text-sm">
-      No promotion
+      </tbody>
     </div>
-  <% end %>
+  </table>
 
   <%= link_to "Edit this product", edit_product_path(@product), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
   <%= link_to "Back to products", products_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
