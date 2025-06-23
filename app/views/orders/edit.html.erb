@@ -1,9 +1,14 @@
 <% content_for :title, "Editing order" %>
 
 <div class="md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">Editing order</h1>
+  <h1 class="mb-8 font-bold text-4xl">Editing order</h1>
 
   <%= form_with(model: @order, data: { controller: "order-items" }, local: true) do |form| %>
+    <div class="mb-12">
+      <%= form.label :customer_name, class: "mb-4 block text-xl font-semibold text-gray-700" %>
+      <%= form.text_field :customer_name, class: "w-full border rounded p-2" %>
+    </div>
+
     <% if @order.order_items.any? %>
       <table class="min-w-full table-auto border border-gray-300">
 
@@ -42,13 +47,13 @@
       <p class="text-center my-10">No order items found.</p>
     <% end %>
       
-    <div class="mt-4">
+    <div class="mb-8 mt-4">
       <button type="button" data-action="order-items#add" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">
         + Add Order Item
       </button>
     </div>
 
-    <div class="flex space-x-4">
+    <div class="mb-8 flex space-x-4">
     <%= form.submit "Update Order", class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
     </div>
   <% end %>
