@@ -1,7 +1,11 @@
 <% content_for :title, "Editing order" %>
 
-<div class="md:w-2/3 w-full">
-  <h1 class="mb-8 font-bold text-4xl">Editing order</h1>
+<div class="w-full p-4">
+  <div class="flex justify-between items-center px-4 mb-12">
+    <h1 class="font-bold text-4xl">Editing Order</h1>
+    <%= link_to "Back to Home Page", root_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
+    <%= link_to "Order List", orders_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
+  </div>
 
   <%= form_with(model: @order, data: { controller: "order-items" }, local: true) do |form| %>
     <div class="mb-12">
@@ -54,12 +58,8 @@
     </div>
 
     <div class="mb-8 flex space-x-4">
-    <%= form.submit "Update Order", class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+      <%= form.submit "Update Order", class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+      <%= link_to "Show this order", @order, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
     </div>
   <% end %>
-
-  
-
-  <%= link_to "Show this order", @order, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-  <%= link_to "Back to orders", orders_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
 </div>
