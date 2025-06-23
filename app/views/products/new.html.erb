@@ -1,4 +1,9 @@
 <%= form_with(model: @product, local: true) do |form| %>
+  <div class="flex justify-between items-center mb-12">
+    <h1 class="font-bold text-4xl"><%= link_to "Create Product", root_path %></h1>
+    <%= link_to "Back to Home Page", root_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
+  </div>
+
   <div class="mb-6">
     <%= form.label :name, class: "block font-medium text-gray-700" %>
     <%= form.text_field :name, class: "mt-1 block w-full rounded border border-gray-300 p-2" %>
@@ -20,11 +25,6 @@
     class: "mt-1 block w-full rounded border border-gray-300 p-2" %>
   </div>
 
-  <div class="mb-6">
-    <%= form.label :discounted_price, class: "block font-medium text-gray-700" %>
-    <%= form.number_field :discounted_price, step: "0.001", class: "mt-1 block w-full rounded border border-gray-300 p-2" %>
-  </div>
-  
   <div class="mt-6">
     <%= form.submit class: "bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700" %>
   </div>
